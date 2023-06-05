@@ -1,10 +1,10 @@
-package com.example.demo;
+package com.digitalworld.api5;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class Api5ApplicationTests {
 
 	@Test
 	void contextLoads() {
