@@ -46,7 +46,7 @@ public class CryptoApiIntegration {
                     }
             ).getBody();
 
-            return Optional.of(response);
+            return Optional.ofNullable(response);
         } catch (RestClientException e) {
             log.error(":::::: Error : {} :::::::", e.getMessage());
             return Optional.empty();
