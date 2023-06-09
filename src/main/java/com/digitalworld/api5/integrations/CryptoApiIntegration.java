@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,17 +30,14 @@ public class CryptoApiIntegration {
         try {
             HttpHeaders headers = new HttpHeaders();
 
-            String url = configurationApp.getCryptoUrl() + "?" +
-                    "ids=" + cryptoIds +
-
-//            for (String crypto:cryptoIds.split(",")) url.append("ids").append("=").append(crypto).append("%2C");
-
-                    "&vs_currencies" + "=" + vsCurrency;
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(configurationApp.getCryptoUrl());
+            url.queryParam("ids", cryptoIds);
+            url.queryParam("vs_currencies", vsCurrency);
 
             HttpEntity<Map<String, CryptoCurrency.Currency>> entity = new HttpEntity<>(headers);
 
             Map<String, CryptoCurrency.Currency> response = restTemplate.exchange(
-                    url,
+                    url.toUriString(),
                     HttpMethod.GET,
                     entity,
                     new ParameterizedTypeReference<Map<String, CryptoCurrency.Currency>>(){
