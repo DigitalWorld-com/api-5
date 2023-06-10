@@ -2,6 +2,7 @@ package com.digitalworld.api5.exception.handler;
 
 
 import com.digitalworld.api5.exception.CryptoApiException;
+import com.digitalworld.api5.exception.MessageException;
 import com.digitalworld.api5.exception.error.ErrorDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionController {
 
-    @ExceptionHandler(CryptoApiException.class)
+    @ExceptionHandler({CryptoApiException.class, MessageException.class})
     public ResponseEntity<ErrorDetails> handleCryptoApiException(CryptoApiException exception) {
 
         ErrorDetails errorDetails = ErrorDetails.builder()

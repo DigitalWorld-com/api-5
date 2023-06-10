@@ -15,6 +15,8 @@ public class ConfigurationApp {
 
     @Value("${api.crypto.url}")
     private String cryptoUrl;
+    @Value("${api.dollarbase.url}")
+    private String dollarBaseUrl;
 
     @Bean("cryptoRestTemplate")
     public RestTemplate restTemplate(RestTemplateBuilder restTemplate) {
