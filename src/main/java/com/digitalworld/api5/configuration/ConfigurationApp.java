@@ -17,6 +17,10 @@ public class ConfigurationApp {
     private String cryptoUrl;
     @Value("${api.dollarbase.url}")
     private String dollarBaseUrl;
+    @Value("&{api.geolocation.url}")
+    private String geolocationUrl;
+    @Value("&{api.weather.url}")
+    private String weatherUrl;
 
     @Bean("cryptoRestTemplate")
     public RestTemplate restTemplate(RestTemplateBuilder restTemplate) {
