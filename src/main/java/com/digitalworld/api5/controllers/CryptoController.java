@@ -1,7 +1,7 @@
 package com.digitalworld.api5.controllers;
 
 import com.digitalworld.api5.responses.CryptoCurrency;
-import com.digitalworld.api5.services.CryptoService;
+import com.digitalworld.api5.services.impl.CryptoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

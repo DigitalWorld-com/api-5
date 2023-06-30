@@ -3,6 +3,7 @@ package com.digitalworld.api5.integrations;
 import com.digitalworld.api5.configuration.ConfigurationApp;
 import com.digitalworld.api5.model.DollarModel;
 import com.digitalworld.api5.responses.CryptoCurrency;
+import com.digitalworld.api5.responses.DollarApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -26,21 +27,19 @@ public class DollarApiIntegration {
 
     private final ConfigurationApp configurationApp;
 
-    public /*Map<String, DollarModel>*/DollarModel getDollarInfo(String dollarType) {
+    public /*Map<String, DollarModel>*/DollarApiResponse getDollarInfo(String dollarType) {
         try {
             HttpHeaders headers = new HttpHeaders();
-            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(configurationApp.getDollarBaseUrl() + dollarType);
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(configurationApp.getDollarBaseUrl() + "/" + dollarType);
             HttpEntity<Map<String, CryptoCurrency.Currency>> entity = new HttpEntity<>(headers);
             //Map<String, DollarModel> response = restTemplate.exchange(
-            DollarModel response = restTemplate.exchange(
+            return restTemplate.exchange(
                     url.toUriString(),
                     HttpMethod.GET,
                     entity,
-                    new ParameterizedTypeReference<DollarModel>(){
+                    new ParameterizedTypeReference<DollarApiResponse>(){
                     }
             ).getBody();
-
-            return response;
         } catch (RestClientException e) {
             log.error(":::::: Error : {} :::::::", e.getMessage());
             return null;

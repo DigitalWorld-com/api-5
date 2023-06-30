@@ -1,4 +1,4 @@
-package com.digitalworld.api5.services;
+package com.digitalworld.api5.services.impl;
 
 import com.digitalworld.api5.exception.CryptoApiException;
 import com.digitalworld.api5.integrations.CryptoApiIntegration;

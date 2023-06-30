@@ -1,4 +1,4 @@
-package com.digitalworld.api5.model;
+package com.digitalworld.api5.responses;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,16 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "dollar")
-public class DollarModel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class DollarApiResponse {
 
     private float compra;
     private float venta;
     private String tipo;
-
+    private String nombre;
+    private String casa;
     private LocalDateTime fechaActualizacion;
 }
