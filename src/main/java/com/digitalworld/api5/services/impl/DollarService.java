@@ -3,9 +3,9 @@ package com.digitalworld.api5.services.impl;
 import com.digitalworld.api5.exception.MessageException;
 import com.digitalworld.api5.integrations.DollarApiIntegration;
 import com.digitalworld.api5.mapper.DollarMapper;
-import com.digitalworld.api5.model.DollarModel;
+import com.digitalworld.api5.entity.DollarEntity;
+import com.digitalworld.api5.model.DollarApiModel;
 import com.digitalworld.api5.persistence.DollarRepository;
-import com.digitalworld.api5.responses.DollarApiResponse;
 import com.digitalworld.api5.responses.DollarDataResponse;
 import com.digitalworld.api5.services.DollarServiceApi;
 import lombok.RequiredArgsConstructor;
@@ -22,31 +22,21 @@ public class DollarService implements DollarServiceApi {
     private final DollarMapper mapper;
 
     public DollarDataResponse getDollarData() throws MessageException{
-        DollarApiResponse officialData = getDollarInfo("oficial");
-        DollarApiResponse blueData = getDollarInfo("blue");
+        DollarApiModel officialData = getDollarInfo("oficial");
+        DollarApiModel blueData = getDollarInfo("blue");
         if(Optional.ofNullable(officialData).isEmpty() || Optional.ofNullable(blueData).isEmpty())
             throw new MessageException("No se obtuvo resultado buscando datos");
-
-//        return DollarDataResponse.builder()
-//                .officialName(officialData.getNombre())
-//                .officialBuyPrice(officialData.getCompra())
-//                .officialSellPrice(officialData.getVenta())
-//                .officialUpdated(officialData.getFechaActualizacion())
-//                .blueName(blueData.getNombre())
-//                .blueBuyPrice(blueData.getCompra())
-//                .blueSellPrice(blueData.getVenta())
-//                .blueUpdated(blueData.getFechaActualizacion())
-//                .build();
-
+        repository.save(mapper.dollarApiResponseToDollarModel(officialData));
+        repository.save(mapper.dollarApiResponseToDollarModel(blueData));
         return mapper.dollarApiResponsesToDollarDataResponse(blueData, officialData);
     }
 
     @Override
-    public DollarModel saveDollarData(String tipo) {
+    public DollarEntity saveDollarData(String tipo) {
 
-        DollarApiResponse dollarApiResponse = getDollarInfo(tipo);
+        DollarApiModel dollarApiModel = getDollarInfo(tipo);
 
-        DollarModel dollarToSave = mapper.dollarApiResponseToDollarModel(dollarApiResponse);
+        DollarEntity dollarToSave = mapper.dollarApiResponseToDollarModel(dollarApiModel);
         dollarToSave.setTipo(tipo);
 
         repository.save(dollarToSave);
@@ -54,7 +44,7 @@ public class DollarService implements DollarServiceApi {
         return dollarToSave;
     }
 
-    private DollarApiResponse getDollarInfo(String type){
+    private DollarApiModel getDollarInfo(String type){
         return dollarApi.getDollarInfo(type);
     }
 
