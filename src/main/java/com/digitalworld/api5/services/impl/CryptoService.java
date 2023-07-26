@@ -5,6 +5,7 @@ import com.digitalworld.api5.integrations.CryptoApiIntegration;
 import com.digitalworld.api5.mapper.CryptoMapper;
 import com.digitalworld.api5.persistence.CryptoRepository;
 import com.digitalworld.api5.responses.CryptoCurrency;
+import com.digitalworld.api5.responses.CryptoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,20 @@ public class CryptoService {
         Optional<Map<String, CryptoCurrency.Currency>> apiResponse = cryptoApi.getCryptoInfo(cryptoNames, vsCurrency);
 
         if (apiResponse.isEmpty()) throw new CryptoApiException("Failed to retrieve cryptocurrency prices");
-        repository.save(mapper.dataToCryptoEntity(cryptoNames, vsCurrency, apiResponse.get().get("bitcoin").getUsd(), LocalDateTime.now()));
+        repository.save(mapper.dataToCryptoEntity(cryptoNames, vsCurrency, apiResponse.get().get(cryptoNames).getUsd(), LocalDateTime.now()));
         return apiResponse.get();
+    }
+
+    public CryptoResponse getCryptoCurrency(String cryptoNames){
+        String vsCurrency  = "usd";
+        Optional<Map<String, CryptoCurrency.Currency>> apiResponse = cryptoApi.getCryptoInfo(cryptoNames, vsCurrency);
+        if (apiResponse.isEmpty()) throw new CryptoApiException("Failed to retrieve cryptocurrency prices");
+        repository.save(mapper.dataToCryptoEntity(cryptoNames, vsCurrency, apiResponse.get().get(cryptoNames).getUsd(), LocalDateTime.now()));
+        return CryptoResponse.builder()
+                .name(cryptoNames)
+                .currency(vsCurrency)
+                .price(apiResponse.get().get(cryptoNames).getUsd())
+                .build();
     }
 
 }

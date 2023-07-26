@@ -1,6 +1,7 @@
 package com.digitalworld.api5.controllers;
 
 import com.digitalworld.api5.responses.CryptoCurrency;
+import com.digitalworld.api5.responses.CryptoResponse;
 import com.digitalworld.api5.services.impl.CryptoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,11 @@ public class CryptoController {
     @GetMapping("/crypto-prices")
     public ResponseEntity<Map<String, CryptoCurrency.Currency>> getCryptoPrices(@RequestParam("ids") String ids) {
         return ResponseEntity.ok(service.getCryptoCurrencies(ids));
+    }
+
+    @GetMapping("/crypto-price")
+    public ResponseEntity<CryptoResponse> getCryptoPrice(@RequestParam("ids") String ids) {
+        return ResponseEntity.ok(service.getCryptoCurrency(ids));
     }
 
 }

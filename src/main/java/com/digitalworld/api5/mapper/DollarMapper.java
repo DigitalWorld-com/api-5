@@ -6,6 +6,8 @@ import com.digitalworld.api5.responses.DollarDataResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.LocalDateTime;
+
 @Mapper
 public interface DollarMapper {
     @Mapping(target = "officialUpdated", source = "dollarOficial.fechaActualizacion")
@@ -20,6 +22,10 @@ public interface DollarMapper {
 
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "tipo", source = "dollarApiModel.nombre")
-    DollarEntity dollarApiResponseToDollarModel(DollarApiModel dollarApiModel);
+    @Mapping(target = "buyPrice", source = "dollarApiModel.compra")
+    @Mapping(target = "sellPrice", source = "dollarApiModel.venta")
+    @Mapping(target = "type", source = "dollarApiModel.nombre")
+    @Mapping(target = "dateUpdated", source = "dollarApiModel.fechaActualizacion")
+    @Mapping(target = "dateAdded", source = "addDate")
+    DollarEntity dollarApiResponseToDollarModel(DollarApiModel dollarApiModel, LocalDateTime addDate);
 }

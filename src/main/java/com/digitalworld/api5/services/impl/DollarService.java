@@ -11,6 +11,8 @@ import com.digitalworld.api5.services.DollarServiceApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,9 +28,15 @@ public class DollarService implements DollarServiceApi {
         DollarApiModel blueData = getDollarInfo("blue");
         if(Optional.ofNullable(officialData).isEmpty() || Optional.ofNullable(blueData).isEmpty())
             throw new MessageException("No se obtuvo resultado buscando datos");
-        repository.save(mapper.dollarApiResponseToDollarModel(officialData));
-        repository.save(mapper.dollarApiResponseToDollarModel(blueData));
+        /*repository.save(mapper.dollarApiResponseToDollarModel(officialData));
+        repository.save(mapper.dollarApiResponseToDollarModel(blueData));*/
+        saveEntity(officialData);
+        saveEntity(blueData);
         return mapper.dollarApiResponsesToDollarDataResponse(blueData, officialData);
+    }
+
+    private void saveEntity(DollarApiModel data){
+        repository.save(mapper.dollarApiResponseToDollarModel(data, LocalDateTime.now()));
     }
 
     @Override
@@ -36,16 +44,20 @@ public class DollarService implements DollarServiceApi {
 
         DollarApiModel dollarApiModel = getDollarInfo(tipo);
 
-        DollarEntity dollarToSave = mapper.dollarApiResponseToDollarModel(dollarApiModel);
+        DollarEntity dollarToSave = null;/*mapper.dollarApiResponseToDollarModel(dollarApiModel);
         dollarToSave.setTipo(tipo);
 
-        repository.save(dollarToSave);
+        repository.save(dollarToSave);*/
 
         return dollarToSave;
     }
 
     private DollarApiModel getDollarInfo(String type){
         return dollarApi.getDollarInfo(type);
+    }
+
+    public List<DollarEntity> getDollarHistory(){
+        return repository.findAll();
     }
 
 }

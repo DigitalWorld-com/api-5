@@ -13,15 +13,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "dollar")
-public class DollarEntity {
-
+@Entity(name = "conversion")
+public class ConversionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private float buyPrice;
-    private float sellPrice;
-    private String type;
-    private LocalDateTime dateUpdated;
-    private LocalDateTime dateAdded;
+    private String coinName;
+    private double coinPrice;
+    private double officialBuyPrice;
+    private double officialSellPrice;
+    private double blueBuyPrice;
+    private double blueSellPrice;
+    private LocalDateTime dateCreated;
+    private LocalDateTime dateChecked;
 }

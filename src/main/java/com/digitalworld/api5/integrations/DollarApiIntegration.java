@@ -25,12 +25,11 @@ public class DollarApiIntegration {
 
     private final ConfigurationApp configurationApp;
 
-    public /*Map<String, DollarModel>*/DollarApiModel getDollarInfo(String dollarType) {
+    public DollarApiModel getDollarInfo(String dollarType) {
         try {
             HttpHeaders headers = new HttpHeaders();
             UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(configurationApp.getDollarBaseUrl() + "/" + dollarType);
             HttpEntity<Map<String, CryptoCurrency.Currency>> entity = new HttpEntity<>(headers);
-            //Map<String, DollarModel> response = restTemplate.exchange(
             return restTemplate.exchange(
                     url.toUriString(),
                     HttpMethod.GET,
