@@ -15,6 +15,8 @@ import org.springframework.util.Assert;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -56,6 +58,7 @@ public class DollarServiceTest {
         Assert.isTrue(response.getOfficialSellPrice() == officialSellPrice);
         Assert.isTrue(response.getBlueBuyPrice() == blueBuyPrice);
         Assert.isTrue(response.getBlueSellPrice() == blueSellPrice);
+        verify(dollarRepository, times(2)).save(any(DollarEntity.class));
     }
 
 }

@@ -3,13 +3,16 @@ package com.digitalworld.api5.services.impl;
 import com.digitalworld.api5.entity.ConversionEntity;
 import com.digitalworld.api5.mapper.ConversionMapper;
 import com.digitalworld.api5.persistence.ConversionRepository;
+import com.digitalworld.api5.requests.ConversionHistoryRequest;
 import com.digitalworld.api5.requests.ConversionRequest;
 import com.digitalworld.api5.responses.ConversionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +35,17 @@ public class ConversionService {
                 .build();
     }
 
-    public List<ConversionEntity> getHistoricData(){
-        return repository.findAll();
+    public List<ConversionEntity> getHistoricData(ConversionHistoryRequest request){
+        return repository.findByCoinNameContainingIgnoreCase(request.getCoinName());
+    }
+    public ConversionEntity getConversionData(int id){
+        return repository.findById(id).orElseThrow();
+    }
+    public void updateConversionData(ConversionEntity data){
+        repository.save(data);
+    }
+    public void deleteConversion(int id){
+        repository.deleteById(id);
     }
 
 }
